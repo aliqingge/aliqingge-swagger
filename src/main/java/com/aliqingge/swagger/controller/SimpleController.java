@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -60,5 +62,18 @@ public class SimpleController {
     public void deleteUser(
             @ApiParam(value = "用户id", required = true, example = "1")
             @RequestParam("id") Long id) {
+    }
+
+    @GetMapping("/test")
+    public String test(HttpServletResponse response) {
+        //创建一个 cookie
+        Cookie cookie = new Cookie("username", "Jovan");
+        //设置 cookie过期时间 expires in 7 days
+//        cookie.setMaxAge(7 * 24 * 60 * 60);
+        cookie.setMaxAge(60);
+        //添加到 response 中
+        response.addCookie(cookie);
+
+        return "Username is changed!";
     }
 }
